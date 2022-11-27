@@ -3,7 +3,6 @@
 #include <sourcemod>
 
 #define PLUGIN_PREFIX "\x04[ConVar Suppression]\x03 "
-#define PLUGIN_VERSION "1.0"
 
 new Handle:g_hGlobalTrie = INVALID_HANDLE;
 
@@ -12,7 +11,7 @@ public Plugin:myinfo =
 	name = "ConVar Suppression",	/* https://www.youtube.com/watch?v=ZhjtChtUmBE&hd=1 */
 	author = "Kyle Sanderson",
 	description = "Atleast we have candy.",
-	version = PLUGIN_VERSION,
+	version = "1.0.0",
 	url = "http://www.SourceMod.net/"
 };
 
@@ -23,8 +22,6 @@ public OnPluginStart()
 	HookEvent("server_cvar", Event_ServerCvar, EventHookMode_Pre);
 
 	RegAdminCmd("sm_suppressconvar", OnSupressConVar, ADMFLAG_ROOT, "Supress a ConVar from displaying changes to Clients.");
-
-	CreateConVar("sm_convarsuppression_version", PLUGIN_VERSION, "Version string for ConVar Supression.", FCVAR_REPLICATED|FCVAR_DONTRECORD|FCVAR_NOTIFY);
 
 	AutoExecConfig(true);
 }
