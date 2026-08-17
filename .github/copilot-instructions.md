@@ -9,11 +9,11 @@ This repository contains **ConVarSuppression**, a SourceMod plugin that allows s
 ## Technical Environment
 
 - **Language**: SourcePawn (SourceMod scripting language)
-- **Platform**: SourceMod 1.11+ (as specified in sourceknight.yaml)
-- **Build System**: SourceKnight (Python-based SourceMod build tool)
-- **Compiler**: SourcePawn Compiler (spcomp) via SourceKnight
+- **Platform**: SourceMod 1.12+
+- **Build System**: Native GitHub Actions workflow (`.github/workflows/ci.yml`)
+- **Compiler**: SourcePawn Compiler (spcomp) via `rumblefrog/setup-sp`
 - **Dependencies**: 
-  - SourceMod 1.11.0-git6934+
+  - SourceMod 1.12.x
   - MultiColors plugin for colored chat output
 
 ## Project Structure
@@ -25,28 +25,27 @@ This repository contains **ConVarSuppression**, a SourceMod plugin that allows s
 │   └── dependabot.yml           # Dependency update automation
 ├── addons/sourcemod/scripting/
 │   └── ConVarSuppression.sp     # Main plugin source code
-├── sourceknight.yaml           # Build configuration
 └── .gitignore                  # Git ignore rules
 ```
 
 ## Build System & Workflow
 
-### SourceKnight Configuration
-The project uses SourceKnight (configured in `sourceknight.yaml`) which:
-- Downloads SourceMod 1.11.0-git6934 automatically
-- Downloads MultiColors dependency from GitHub
-- Compiles the plugin to `/addons/sourcemod/plugins`
-- Manages dependencies and build artifacts
+### GitHub Actions CI
+The project is built directly by `.github/workflows/ci.yml`, which:
+- Installs the SourcePawn compiler via `rumblefrog/setup-sp` (SourceMod 1.12.x)
+- Clones the MultiColors dependency and copies its include files
+- Compiles the plugin with `spcomp` to `addons/sourcemod/plugins/`
+- Packages and uploads the compiled `.smx` as a build artifact
 
-### Building the Plugin
+### Building the Plugin Locally
 ```bash
-# Install SourceKnight (Python package)
-pip install sourceknight
+# Fetch the MultiColors include dependency
+git clone --depth=1 https://github.com/srcdslab/sm-plugin-MultiColors deps/multicolors
+cp -R deps/multicolors/addons/sourcemod/scripting/include/* addons/sourcemod/scripting/include/
 
-# Build the plugin
-sourceknight build
-
-# Output will be in .sourceknight/package/addons/sourcemod/plugins/
+# Compile with spcomp
+cd addons/sourcemod/scripting
+spcomp -i include -o ../plugins/ConVarSuppression.smx ConVarSuppression.sp
 ```
 
 ### CI/CD Pipeline
@@ -149,7 +148,7 @@ g_ConVarMap = new StringMap();  // Recreate
 ### MultiColors Plugin
 - Provides colored chat functionality via `CReplyToCommand()`
 - Required for proper message formatting
-- Automatically downloaded by SourceKnight
+- Automatically cloned and its includes copied in during CI
 
 ### SourceMod Integration
 - Hooks into SourceMod's event system
@@ -201,8 +200,7 @@ if (!GetCmdArg(argNum, buffer, sizeof(buffer))) {
 ## Troubleshooting
 
 ### Common Build Issues
-- **SourceKnight not found**: Install with `pip install sourceknight`
-- **Missing dependencies**: SourceKnight handles automatic dependency download
+- **Missing dependencies**: Ensure the MultiColors include is cloned and copied before compiling (see CI workflow)
 - **Compilation errors**: Check SourcePawn syntax and SourceMod version compatibility
 
 ### Runtime Issues
