@@ -4,11 +4,11 @@
 #include <multicolors>
 
 #define PLUGIN_PREFIX "{green}[ConVar Suppression]{default}"
-#define PLUGIN_VERSION "2.0.1"
+#define PLUGIN_VERSION "2.0.2"
 
 #pragma newdecls required
 
-Handle g_hGlobalTrie = INVALID_HANDLE;
+StringMap g_hGlobalTrie = null;
 
 public Plugin myinfo =
 {
@@ -21,7 +21,7 @@ public Plugin myinfo =
 
 public void OnPluginStart()
 {
-	g_hGlobalTrie = CreateTrie();
+	g_hGlobalTrie = new StringMap();
 
 	HookEvent("server_cvar", Event_ServerCvar, EventHookMode_Pre);
 
@@ -83,7 +83,7 @@ public Action OnSupressConVar(int client, int argc)
 	{
 		case 0:
 		{
-			RemoveFromTrie(g_hGlobalTrie, sCommand);
+			g_hGlobalTrie.Remove(sCommand);
 			CReplyToCommand(client, "%s Removed Hook ConVar: {green}%s", PLUGIN_PREFIX, sCommand);
 			if(client)
 				LogAction(client, -1, "[ConVar Suppression] \"%L\" Removed Hook for ConVar: \"%s\"", client, sCommand);
@@ -93,7 +93,7 @@ public Action OnSupressConVar(int client, int argc)
 
 		case 1:
 		{
-			SetTrieValue(g_hGlobalTrie, sCommand, 1, true);
+			g_hGlobalTrie.SetValue(sCommand, 1, true);
 			CReplyToCommand(client, "%s Added Hook for ConVar: {green}%s", PLUGIN_PREFIX, sCommand);
 			if(client)
 				LogAction(client, -1, "[ConVar Suppression] \"%L\" Added Hook for ConVar: \"%s\"", client, sCommand);
@@ -112,16 +112,16 @@ public Action OnSupressConVar(int client, int argc)
 
 public Action OnResetConVar(int client, int argc)
 {
-	ClearTrie(g_hGlobalTrie);
+	g_hGlobalTrie.Clear();
 	CReplyToCommand(client, "%s Successfully remove all ConVars stored in Trie.", PLUGIN_PREFIX);
 	LogAction(client, -1, "[ConVar Suppression] \"%L\" Remove all ConVars stored in Trie.", client);
 	return Plugin_Handled;
 }
-public Action Event_ServerCvar(Handle event, const char[] name, bool dontBroadcast)
+public Action Event_ServerCvar(Event event, const char[] name, bool dontBroadcast)
 {
 	char sConVarName[64];
 	int iValue;
 
-	GetEventString(event, "cvarname", sConVarName, sizeof(sConVarName));
-	return (GetTrieValue(g_hGlobalTrie, sConVarName, iValue) && iValue) ? Plugin_Handled : Plugin_Continue;
+	event.GetString("cvarname", sConVarName, sizeof(sConVarName));
+	return (g_hGlobalTrie.GetValue(sConVarName, iValue) && iValue) ? Plugin_Handled : Plugin_Continue;
 }
