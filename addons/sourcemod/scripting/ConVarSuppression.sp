@@ -4,7 +4,7 @@
 #include <multicolors>
 
 #define PLUGIN_PREFIX "{green}[ConVar Suppression]{default}"
-#define PLUGIN_VERSION "2.0.2"
+#define PLUGIN_VERSION "2.0.3"
 
 #pragma newdecls required
 
@@ -21,6 +21,8 @@ public Plugin myinfo =
 
 public void OnPluginStart()
 {
+	LoadTranslations("ConVarSuppression.phrases");
+
 	g_hGlobalTrie = new StringMap();
 
 	HookEvent("server_cvar", Event_ServerCvar, EventHookMode_Pre);
@@ -42,7 +44,7 @@ public Action OnSupressConVar(int client, int argc)
 			return Plugin_Handled;
 		}
 
-		CReplyToCommand(client, "%s Usage: %s {olive}<convar> <1|0>", PLUGIN_PREFIX, sCommand);
+		CReplyToCommand(client, "%s %t", PLUGIN_PREFIX, "Suppress Usage", sCommand);
 		return Plugin_Handled;
 	}
 
@@ -84,7 +86,7 @@ public Action OnSupressConVar(int client, int argc)
 		case 0:
 		{
 			g_hGlobalTrie.Remove(sCommand);
-			CReplyToCommand(client, "%s Removed Hook ConVar: {green}%s", PLUGIN_PREFIX, sCommand);
+			CReplyToCommand(client, "%s %t", PLUGIN_PREFIX, "Hook Removed", sCommand);
 			if(client)
 				LogAction(client, -1, "[ConVar Suppression] \"%L\" Removed Hook for ConVar: \"%s\"", client, sCommand);
 			else
@@ -94,7 +96,7 @@ public Action OnSupressConVar(int client, int argc)
 		case 1:
 		{
 			g_hGlobalTrie.SetValue(sCommand, 1, true);
-			CReplyToCommand(client, "%s Added Hook for ConVar: {green}%s", PLUGIN_PREFIX, sCommand);
+			CReplyToCommand(client, "%s %t", PLUGIN_PREFIX, "Hook Added", sCommand);
 			if(client)
 				LogAction(client, -1, "[ConVar Suppression] \"%L\" Added Hook for ConVar: \"%s\"", client, sCommand);
 			else
@@ -103,7 +105,7 @@ public Action OnSupressConVar(int client, int argc)
 
 		default:
 		{
-			CReplyToCommand(client, "%s Illegal Input for {green}Enabled/Disabled {default}with ConVar: {green}%s", PLUGIN_PREFIX, sCommand);
+			CReplyToCommand(client, "%s %t", PLUGIN_PREFIX, "Illegal Input", sCommand);
 		}
 	}
 
@@ -113,7 +115,7 @@ public Action OnSupressConVar(int client, int argc)
 public Action OnResetConVar(int client, int argc)
 {
 	g_hGlobalTrie.Clear();
-	CReplyToCommand(client, "%s Successfully remove all ConVars stored in Trie.", PLUGIN_PREFIX);
+	CReplyToCommand(client, "%s %t", PLUGIN_PREFIX, "Trie Cleared");
 	LogAction(client, -1, "[ConVar Suppression] \"%L\" Remove all ConVars stored in Trie.", client);
 	return Plugin_Handled;
 }
