@@ -1,0 +1,57 @@
+"Phrases"
+{
+	"Suppress Usage"
+	{
+		"#format"	"{1:s}"
+		"en"		"Usage: {1} {olive}<convar> <1|0>"
+		"fr"		"Utilisation : {1} {olive}<convar> <1|0>"
+		"ru"		"Использование: {1} {olive}<convar> <1|0>"
+		"es"		"Uso: {1} {olive}<convar> <1|0>"
+		"de"		"Verwendung: {1} {olive}<convar> <1|0>"
+		"pt"		"Uso: {1} {olive}<convar> <1|0>"
+		"chi"		"用法：{1} {olive}<convar> <1|0>"
+	}
+	"Hook Removed"
+	{
+		"#format"	"{1:s}"
+		"en"		"Removed hook for ConVar: {green}{1}"
+		"fr"		"Hook retiré pour le ConVar : {green}{1}"
+		"ru"		"Хук для ConVar удалён: {green}{1}"
+		"es"		"Hook eliminado para el ConVar: {green}{1}"
+		"de"		"Hook für ConVar entfernt: {green}{1}"
+		"pt"		"Hook removido do ConVar: {green}{1}"
+		"chi"		"已移除 ConVar 的钩子：{green}{1}"
+	}
+	"Hook Added"
+	{
+		"#format"	"{1:s}"
+		"en"		"Added hook for ConVar: {green}{1}"
+		"fr"		"Hook ajouté pour le ConVar : {green}{1}"
+		"ru"		"Хук для ConVar добавлен: {green}{1}"
+		"es"		"Hook añadido para el ConVar: {green}{1}"
+		"de"		"Hook für ConVar hinzugefügt: {green}{1}"
+		"pt"		"Hook adicionado ao ConVar: {green}{1}"
+		"chi"		"已添加 ConVar 的钩子：{green}{1}"
+	}
+	"Illegal Input"
+	{
+		"#format"	"{1:s}"
+		"en"		"Illegal input for {green}Enabled/Disabled {default}with ConVar: {green}{1}"
+		"fr"		"Valeur invalide pour {green}Enabled/Disabled {default}avec le ConVar : {green}{1}"
+		"ru"		"Недопустимое значение {green}Enabled/Disabled {default}для ConVar: {green}{1}"
+		"es"		"Entrada no válida para {green}Enabled/Disabled {default}con el ConVar: {green}{1}"
+		"de"		"Ungültige Eingabe für {green}Enabled/Disabled {default}bei ConVar: {green}{1}"
+		"pt"		"Entrada inválida para {green}Enabled/Disabled {default}com o ConVar: {green}{1}"
+		"chi"		"ConVar {green}{1} {default}的 {green}Enabled/Disabled {default}输入无效"
+	}
+	"Trie Cleared"
+	{
+		"en"		"Successfully removed all ConVars stored in Trie."
+		"fr"		"Tous les ConVars stockés dans le Trie ont été supprimés."
+		"ru"		"Все ConVar, сохранённые в Trie, успешно удалены."
+		"es"		"Se eliminaron correctamente todos los ConVars almacenados en el Trie."
+		"de"		"Alle im Trie gespeicherten ConVars wurden erfolgreich entfernt."
+		"pt"		"Todos os ConVars armazenados no Trie foram removidos com sucesso."
+		"chi"		"已成功移除 Trie 中存储的所有 ConVar。"
+	}
+}
