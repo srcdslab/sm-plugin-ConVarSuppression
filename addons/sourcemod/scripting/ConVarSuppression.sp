@@ -4,7 +4,7 @@
 #include <multicolors>
 
 #define PLUGIN_PREFIX "{green}[ConVar Suppression]{default}"
-#define PLUGIN_VERSION "2.0.3"
+#define PLUGIN_VERSION "2.0.4"
 
 #pragma newdecls required
 
